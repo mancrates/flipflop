@@ -43,7 +43,7 @@ module Flipflop
 
     initializer "flipflop.request_interceptor" do |app|
       interceptor = Strategies::AbstractStrategy::RequestInterceptor
-      
+
       ActiveSupport.on_load(:action_controller_base) do
         ActionController::Base.send(:include, interceptor)
       end
@@ -61,9 +61,9 @@ module Flipflop
 
     private
 
-    def to_prepare
+    def to_prepare(&block)
       klass = defined?(ActiveSupport::Reloader) ? ActiveSupport::Reloader : ActionDispatch::Reloader
-      klass.to_prepare(&Proc.new)
+      klass.to_prepare(&block)
     end
   end
 end
